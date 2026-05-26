@@ -1,59 +1,5 @@
 public class Main {
 
-    public static void print(String prefix, double[] values) {
-        System.out.println();
-        System.out.print(prefix + "[");
-
-        for (double value : values) {
-            System.out.print((Math.round(value * 100) + 0.0) / 100 + ", ");
-        }
-
-        System.out.print("]");
-    }
-
-    public static void print(String prefix, double value) {
-        System.out.println();
-        System.out.print(prefix + value);
-    }
-
-    public static void print(String str) {
-        System.out.println();
-        System.out.print(str);
-    }
-
-    public static double[][] normalize(double[][] values) {
-        int sampleCount = values.length;
-
-        double[][] normalizedValues = new double[sampleCount][];
-
-        for (int dim = 0; dim < values[0].length; dim++) {
-
-            double min = values[0][dim];
-            double max = values[0][dim];
-
-            for (int sample_i = 1; sample_i < sampleCount; sample_i++) {
-
-                if (values[sample_i][dim] < min) {
-                    min = values[sample_i][dim];
-                }
-
-                if (values[sample_i][dim] > max) {
-                    max = values[sample_i][dim];
-                }
-            }
-
-            for (int sample_i = 0; sample_i < sampleCount; sample_i++) {
-                if (normalizedValues[sample_i] == null) {
-                    normalizedValues[sample_i] = new double[values[sample_i].length];
-                }
-
-                normalizedValues[sample_i][dim] = (normalizedValues[sample_i][dim] - min) / (max - min);
-            }
-        }
-
-        return normalizedValues;
-    }
-
     public static void main(String[] args) {
 
         // Data set for the XOR problem.
@@ -69,14 +15,12 @@ public class Main {
         Y_hat[2] = new double[] { 1.0 };
         Y_hat[3] = new double[] { 0.0 };
 
-
         // Network definition
         Network net = new Network(new int[] {
                 X[0].length,
                 10,
                 Y_hat[0].length
-            }
-        );
+        });
 
         // Hyper parameters
         double learningRate = 1;
@@ -109,12 +53,12 @@ public class Main {
             net.backward(deltas, learningRate);
 
             if (epoch % printEvery == 0) {
-                print("\nEpoch " + epoch + ":");
-                print("\t MSE: ", error);
+                Utils.print("\nEpoch " + epoch + ":");
+                Utils.print("\t MSE: ", error);
                 Y = net.forward(X);
                 for (int sample_i = 0; sample_i < X.length; sample_i++) {
-                    print("x = ", X[sample_i]);
-                    print("y = ", Y[sample_i]);
+                    Utils.print("x = ", X[sample_i]);
+                    Utils.print("y = ", Y[sample_i]);
                 }
             }
         }
