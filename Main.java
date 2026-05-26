@@ -56,6 +56,7 @@ public class Main {
 
     public static void main(String[] args) {
 
+        // Data set for the XOR problem.
         double[][] X = new double[4][];
         X[0] = new double[] { 0.0, 0.0 };
         X[1] = new double[] { 0.0, 1.0 };
@@ -68,30 +69,21 @@ public class Main {
         Y_hat[2] = new double[] { 1.0 };
         Y_hat[3] = new double[] { 0.0 };
 
-        // double[][] X = new double[4][];
-        // X[0] = new double[]{3.0, -1.0, 7.0};
-        // X[1] = new double[]{-2.0, -3.0, 4.0};
-        // X[2] = new double[]{3.0, 2.0, 3.0};
-        // X[3] = new double[]{1.0, 1.0, 1.0};
 
-        // double[][] Y_hat = new double[4][];
-        // Y_hat[0] = new double[]{17.0};
-        // Y_hat[1] = new double[]{1.0};
-        // Y_hat[2] = new double[]{10.0};
-        // Y_hat[3] = new double[]{3.0};
-
+        // Network definition
         Network net = new Network(new int[] {
                 X[0].length,
                 10,
-                // 10,
                 Y_hat[0].length
             }
         );
 
+        // Hyper parameters
         double learningRate = 1;
         int printEvery = 10000;
         int maxEpochs = 100000;
 
+        // Training loop
         for (int epoch = 1; epoch <= maxEpochs; epoch++) {
 
             double error = 0.0;
@@ -117,10 +109,7 @@ public class Main {
             net.backward(deltas, learningRate);
 
             if (epoch % printEvery == 0) {
-                // learningRate *= 0.9;
-
                 print("\nEpoch " + epoch + ":");
-                // print("Output prediction: ", y);
                 print("\t MSE: ", error);
                 Y = net.forward(X);
                 for (int sample_i = 0; sample_i < X.length; sample_i++) {
